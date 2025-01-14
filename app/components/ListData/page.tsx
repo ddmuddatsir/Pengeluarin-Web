@@ -1,46 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import Item from "@/components/ui/item";
 import Filter from "@/components/ui/filter";
 
-export default function ListData() {
+export default function ListData({ transactions }) {
   const [isActive, setIsActive] = useState(1);
-  const [transactions, setTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] =
+    useState(transactions); // Data transaksi yang difilter
 
   const filters = [
     { id: 1, label: "Semua Transaksi" },
     { id: 2, label: "Transaksi Terbesar" },
+    { id: 3, label: "Transaksi Terkecil" },
   ];
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await axios.get("/api/transaction");
-        setTransactions(response.data);
-      } catch (error) {
-        console.error("Error fetching transaction", error);
-      }
-    };
-    fetchTransactions();
-  }, []);
-
+  // Fungsi untuk mengubah data sesuai filter
   const handleFilter = (filterId) => {
     setIsActive(filterId);
-    // Implementasi logika filter berdasarkan filterId
+
     if (filterId === 1) {
       // Semua transaksi
-      setTransactions((prev) => [...prev]); // Placeholder, gunakan logika filter sebenarnya jika ada
+      setFilteredTransactions(transactions);
     } else if (filterId === 2) {
-      // Transaksi terbesar
-      setTransactions((prev) => [...prev].sort((a, b) => b.amount - a.amount));
+      // Transaksi terbesar (urutkan berdasarkan amount dari besar ke kecil)
+      setFilteredTransactions(
+        [...transactions].sort((a, b) => b.amount - a.amount)
+      );
+    } else if (filterId === 3) {
+      // Transaksi terkecil (urutkan berdasarkan amount dari kecil ke besar)
+      setFilteredTransactions(
+        [...transactions].sort((a, b) => a.amount - b.amount)
+      );
     }
   };
 
+  // Jika `transactions` berubah, reset data yang difilter
+  useEffect(() => {
+    setFilteredTransactions(transactions);
+  }, [transactions]);
+
   return (
-    <div className="p-4 bg-white rounded-se-xl rounded-ss-xl flex-grow">
+    <div className="p-4 bg-white  flex-grow">
       {/* Komponen Filter */}
       <Filter
         filters={filters}
@@ -49,7 +51,7 @@ export default function ListData() {
       />
 
       {/* Item */}
-      <Item items={transactions} />
+      <Item items={filteredTransactions} />
     </div>
   );
 }

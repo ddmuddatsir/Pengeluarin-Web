@@ -107,6 +107,21 @@ export default function Home() {
     0
   );
 
+  useEffect(() => {
+    if (!selectedDate) {
+      setSelectedDate(new Date()); // Atur ke tanggal hari ini
+    }
+  }, []);
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    if (!selectedDate) return true; // Jika tidak ada tanggal, tampilkan semua data
+    const transactionDate = new Date(transaction.date); // Asumsikan `transaction.date` adalah string tanggal
+    return (
+      transactionDate.getMonth() === selectedDate.getMonth() &&
+      transactionDate.getFullYear() === selectedDate.getFullYear()
+    );
+  });
+
   return (
     <div className="flex flex-col min-h-screen relative">
       {/* Header */}
@@ -160,11 +175,17 @@ export default function Home() {
       </div>
 
       {/* Content */}
+
       {viewMode === "list" ? (
-        <ListData />
+        <div className="bottom-0 h-[700px] bg-white w-full overflow-y-auto max-h-[470px] mt-auto rounded-se-xl rounded-ss-xl">
+          {transactions ? (
+            <ListData transactions={filteredTransactions} />
+          ) : (
+            <div></div>
+          )}
+        </div>
       ) : (
-        <div className=" bottom-0 w-full overflow-y-auto max-h-[470px] mt-auto">
-          {/* Komponen GraphData akan scroll ke atas saat ruang scroll */}
+        <div className="bottom-0 w-full overflow-y-auto max-h-[470px] mt-auto">
           <Graph />
           <GraphData />
         </div>

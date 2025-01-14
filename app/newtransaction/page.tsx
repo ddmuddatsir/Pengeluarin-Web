@@ -25,6 +25,7 @@ import {
 import NumericKeyboard from "@/components/ui/numericKeyboard";
 import axios from "axios";
 import CalenderComponent from "../components/Calender/page";
+import { formatNumber } from "@/utils/formatNumber";
 // Pastikan path sesuai
 
 export default function NewTransaction() {
@@ -76,17 +77,19 @@ export default function NewTransaction() {
   const handleAddTransaction = async (e) => {
     e.preventDefault();
 
-    if (!amount || !date || !description || !category) {
+    if (!amount || !date || !category) {
       setError("All fields are required");
       return;
     }
+
+    const updatedDescription = description.trim() === "" ? "-" : description;
 
     setLoading(true);
     try {
       const newTransaction = {
         amount: parseFloat(amount),
         date,
-        description,
+        description: updatedDescription,
         category,
       };
 
@@ -174,7 +177,9 @@ export default function NewTransaction() {
       {/* Input Display */}
       <div className="flex justify-center items-center p-10">
         <p>Rp</p>
-        <p className="font-semibold text-4xl">{amount || "0"}</p>
+        <p className="font-semibold text-4xl">
+          {amount ? formatNumber(parseFloat(amount)) : "0"}
+        </p>
       </div>
 
       {/* Form Section */}
