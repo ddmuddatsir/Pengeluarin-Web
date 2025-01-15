@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 import { formatDate } from "@/utils/formatDate";
 import { formatNumber } from "@/utils/formatNumber";
 import {

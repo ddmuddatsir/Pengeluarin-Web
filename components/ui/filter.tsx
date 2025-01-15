@@ -1,6 +1,16 @@
 "use client";
 
-export default function Filter({ filters, isActive, handleFilter }) {
+interface FilterProps {
+  filters: { id: string; label: string }[]; // Tipe untuk filter: array objek dengan id dan label
+  isActive: string; // Tipe untuk isActive: harus string
+  handleFilter: (id: string) => void; // Tipe untuk handleFilter: fungsi yang menerima string dan tidak mengembalikan apa-apa
+}
+
+export default function Filter({
+  filters,
+  isActive,
+  handleFilter,
+}: FilterProps) {
   return (
     <div className="flex flex-row gap-2 mb-4">
       {filters.map((filter) => (
