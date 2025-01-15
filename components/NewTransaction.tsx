@@ -28,7 +28,6 @@ import {
   IconShop,
   IconSubscription,
 } from "./ui/iconcategory";
-import { ButtonSubmit } from "./ui/ButtonSubmit";
 
 export default function NewTransaction({ refetch, onTransactionSaved }) {
   const calendarRef = useRef<HTMLDivElement>(null);

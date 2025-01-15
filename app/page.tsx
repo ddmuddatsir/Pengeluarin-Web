@@ -99,9 +99,9 @@ export default function Home() {
     setSelectedDate(date);
   };
 
-  const handleAddTransaksi = () => {
-    refetch(); // Re-fetch transactions when new transaction is added
-  };
+  // const handleAddTransaksi = () => {
+  //   refetch(); // Re-fetch transactions when new transaction is added
+  // };
 
   const toggleCalender = () => {
     setIsCalenderIsVisible((prev) => !prev);

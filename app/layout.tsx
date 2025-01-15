@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
 import ClientProviders from "@/components/ClientProviders";
-import Link from "next/link";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
