@@ -4,10 +4,22 @@ import { useEffect, useState } from "react";
 import Item from "@/components/ui/item";
 import Filter from "@/components/ui/filter";
 
-export default function ListData({ transactions }) {
+interface Transaction {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  category: string;
+}
+
+interface ListDataProps {
+  transactions: Transaction[]; // Menambahkan tipe untuk properti transactions
+}
+
+export default function ListData({ transactions }: ListDataProps) {
   const [isActive, setIsActive] = useState(1);
   const [filteredTransactions, setFilteredTransactions] =
-    useState(transactions); // Data transaksi yang difilter
+    useState<Transaction[]>(transactions); // Data transaksi yang difilter
 
   const filters = [
     { id: 1, label: "Semua Transaksi" },
@@ -16,7 +28,7 @@ export default function ListData({ transactions }) {
   ];
 
   // Fungsi untuk mengubah data sesuai filter
-  const handleFilter = (filterId) => {
+  const handleFilter = (filterId: number) => {
     setIsActive(filterId);
 
     if (filterId === 1) {
