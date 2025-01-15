@@ -7,11 +7,21 @@ import { IconLeftChevron, IconSearch } from "@/public/icon/icon";
 import axios from "axios";
 import Filter from "@/components/ui/filter";
 
+interface Transaction {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  category: string;
+}
+
 export default function Search() {
   const router = useRouter();
 
-  const [transactions, setTransactions] = useState([]); // Data transaksi asli
-  const [filteredTransactions, setFilteredTransactions] = useState([]); // Data transaksi yang difilter
+  const [transactions, setTransactions] = useState<Transaction[]>([]); // Data transaksi asli
+  const [filteredTransactions, setFilteredTransactions] = useState<
+    Transaction[]
+  >([]); // Data transaksi yang difilter
   const [searchQuery, setSearchQuery] = useState(""); // Input pencarian
   const [isActive, setIsActive] = useState(1); // Filter aktif
   const [totalAmount, setTotalAmount] = useState(0); // Total amount transaksi
@@ -39,21 +49,28 @@ export default function Search() {
     router.back();
   };
 
-  const handleFilter = (filterId) => {
+  const handleFilter = (filterId: number) => {
     setIsActive(filterId);
-    let filtered;
+
+    // Berikan nilai default untuk filtered
+    let filtered: Transaction[] = [];
+
     if (filterId === 1) {
       // Semua transaksi
       filtered = [...transactions];
     } else if (filterId === 2) {
       // Transaksi terbesar
       filtered = [...transactions].sort((a, b) => b.amount - a.amount);
+    } else {
+      // Jika filterId bukan 1 atau 2, tetapkan filtered ke transaksi kosong
+      filtered = [...transactions];
     }
+
     setFilteredTransactions(filtered);
     calculateTotalAmount(filtered); // Hitung total amount setelah filter
   };
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
 
     const lowercasedQuery = query.toLowerCase();
@@ -70,7 +87,7 @@ export default function Search() {
     calculateTotalAmount(filtered); // Hitung total amount setelah pencarian
   };
 
-  const calculateTotalAmount = (transactionsList) => {
+  const calculateTotalAmount = (transactionsList: Transaction[]) => {
     const total = transactionsList.reduce(
       (sum, transaction) => sum + transaction.amount,
       0

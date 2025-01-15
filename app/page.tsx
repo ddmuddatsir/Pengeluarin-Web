@@ -19,6 +19,14 @@ import GraphData from "@/components/GraphData";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTransactions } from "@/utils/transactionService";
 
+interface Transaction {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  category: string;
+}
+
 export default function Home() {
   const [isNewTransaksiVisible, setIsNewTransaksiVisible] = useState(false);
   const [isCalenderIsVisible, setIsCalenderIsVisible] = useState(false);
@@ -56,7 +64,7 @@ export default function Home() {
     isError,
     error,
     refetch,
-  } = useQuery({
+  } = useQuery<Transaction[]>({
     queryKey: ["transactions"],
     queryFn: fetchTransactions,
     select: (data) => {

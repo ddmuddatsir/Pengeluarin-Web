@@ -29,18 +29,33 @@ import {
   IconSubscription,
 } from "./ui/iconcategory";
 
-export default function NewTransaction({ refetch, onTransactionSaved }) {
+interface NewTransactionProps {
+  refetch: () => void;
+  onTransactionSaved: () => void;
+}
+
+interface Transaction {
+  id: string;
+  amount: number;
+  date: Date;
+  description: string;
+  category: string;
+}
+
+export default function NewTransaction({
+  refetch,
+  onTransactionSaved,
+}: NewTransactionProps) {
   const calendarRef = useRef<HTMLDivElement>(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [category, setCategory] = useState<string | null>(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [isCalenderIsVisible, setIsCalenderIsVisible] = useState(false);
-
   const [isClient, setIsClient] = useState(false);
 
   const categories = [
@@ -75,7 +90,7 @@ export default function NewTransaction({ refetch, onTransactionSaved }) {
     fetchTransactions();
   }, []);
 
-  const handleAddTransaction = async (e) => {
+  const handleAddTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!amount || !category) {

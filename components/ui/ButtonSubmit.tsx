@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button";
 
-export const ButtonSubmit = ({ onClick, disabled }) => {
+interface ButtonSubmitProps {
+  onClick: () => Promise<boolean>; // Tipe untuk onClick, asumsikan mengembalikan Promise<boolean>
+  disabled: boolean; // Tipe untuk disabled
+}
+
+export const ButtonSubmit: React.FC<ButtonSubmitProps> = ({
+  onClick,
+  disabled,
+}) => {
   const handleClick = async () => {
     try {
       // Panggil onClick jika diberikan dan tunggu hasilnya

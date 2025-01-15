@@ -1,3 +1,7 @@
+interface IconProps {
+  color: string; // Menentukan tipe color sebagai string
+}
+
 export const IconSetting = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +25,7 @@ export const IconSetting = () => (
   </svg>
 );
 
-export const IconSearch = ({ color }) => (
+export const IconSearch: React.FC<IconProps> = ({ color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -39,7 +43,7 @@ export const IconSearch = ({ color }) => (
   </svg>
 );
 
-export const IconRightChevron = ({ color }) => (
+export const IconRightChevron: React.FC<IconProps> = ({ color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -57,7 +61,7 @@ export const IconRightChevron = ({ color }) => (
   </svg>
 );
 
-export const IconLeftChevron = ({ color }) => (
+export const IconLeftChevron: React.FC<IconProps> = ({ color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
