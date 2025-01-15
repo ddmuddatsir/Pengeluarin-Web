@@ -1,7 +1,7 @@
 "use client";
 
-import { Calendar } from "@/components/ui/calendar";
 import React, { useState } from "react";
+import { Calendar } from "./ui/calendar";
 
 interface CalenderProps {
   onDateChange: (date: Date | undefined) => void;

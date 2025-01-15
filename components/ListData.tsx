@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import Item from "@/components/ui/item";
 import Filter from "@/components/ui/filter";
 
@@ -13,7 +12,7 @@ export default function ListData({ transactions }) {
   const filters = [
     { id: 1, label: "Semua Transaksi" },
     { id: 2, label: "Transaksi Terbesar" },
-    { id: 3, label: "Transaksi Terkecil" },
+    // { id: 3, label: "Transaksi Terkecil" },
   ];
 
   // Fungsi untuk mengubah data sesuai filter
@@ -42,7 +41,7 @@ export default function ListData({ transactions }) {
   }, [transactions]);
 
   return (
-    <div className="p-4 bg-white  flex-grow">
+    <div className="p-4 bg-white overflow-y-auto flex-grow mt-auto">
       {/* Komponen Filter */}
       <Filter
         filters={filters}

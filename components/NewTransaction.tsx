@@ -3,6 +3,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import axios from "axios";
+
+import CalenderComponent from "./CalenderComponet";
+import { formatNumber } from "@/utils/formatNumber";
+import NumericKeyboard from "./ui/numericKeyboard";
+import {
+  IconCalender,
+  IconDownChevron,
+  IconUpChevron,
+} from "@/public/icon/icon";
 import {
   IconBill,
   IconBusiness,
@@ -16,19 +27,10 @@ import {
   IconSchool,
   IconShop,
   IconSubscription,
-} from "../components/iconCategory/page";
-import {
-  IconCalender,
-  IconDownChevron,
-  IconUpChevron,
-} from "@/public/icon/icon";
-import NumericKeyboard from "@/components/ui/numericKeyboard";
-import axios from "axios";
-import CalenderComponent from "../components/Calender/page";
-import { formatNumber } from "@/utils/formatNumber";
-// Pastikan path sesuai
+} from "./ui/iconcategory";
+import { ButtonSubmit } from "./ui/ButtonSubmit";
 
-export default function NewTransaction() {
+export default function NewTransaction({ refetch, onTransactionSaved }) {
   const calendarRef = useRef<HTMLDivElement>(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
@@ -77,33 +79,33 @@ export default function NewTransaction() {
   const handleAddTransaction = async (e) => {
     e.preventDefault();
 
-    if (!amount || !date || !category) {
+    if (!amount || !category) {
       setError("All fields are required");
       return;
     }
 
     const updatedDescription = description.trim() === "" ? "-" : description;
+    const finalDate = date || new Date();
 
     setLoading(true);
     try {
       const newTransaction = {
         amount: parseFloat(amount),
-        date,
+        date: finalDate,
         description: updatedDescription,
         category,
       };
 
-      // Log data sebelum dikirim ke server
-      console.log("Sending transaction data to the server:", newTransaction);
-
       const response = await axios.post("/api/transaction", newTransaction);
-      setTransactions([...transactions, response.data]);
+      // Refetch transactions setelah berhasil menambahkan transaksi baru
+      refetch(); // Pastikan refetch() dipanggil untuk mengambil data terbaru
+      setTransactions([...transactions, response.data]); // Menambah transaksi baru di state lokal (opsional)
       setAmount(""); // Clear the amount field
       setDescription(""); // Clear the description field
-      setCategory(""); // Clear category
-      setCategory(null); // Reset selected category
-      setDate(""); // Clear the date
+      setCategory(null); // Clear category
+      setDate(new Date()); // Clear the date
       setError(null); // Clear error
+      onTransactionSaved();
     } catch (error) {
       console.error("Error adding transaction:", error);
       setError("Failed to add transaction");
@@ -168,14 +170,14 @@ export default function NewTransaction() {
   }, []);
 
   return (
-    <div className="bg-white w-[384px]">
+    <div className="bg-white w-full max-w-xs  mx-auto  px-4 pt-6 overflow-y-auto">
       {/* Title */}
       <div className="flex justify-center pb-6 ">
         <p className="font-semibold">Tambah Transaksi</p>
       </div>
 
       {/* Input Display */}
-      <div className="flex justify-center items-center p-10">
+      <div className="flex justify-center items-center p-4">
         <p>Rp</p>
         <p className="font-semibold text-4xl">
           {amount ? formatNumber(parseFloat(amount)) : "0"}
@@ -184,7 +186,7 @@ export default function NewTransaction() {
 
       {/* Form Section */}
       <div className="flex justify-center">
-        <div className="flex flex-col w-80 gap-3 items-center py-3">
+        <div className="flex flex-col w-full gap-3 items-center py-3">
           {/* Choose Category */}
           <div className="w-full flex flex-row items-center gap-2">
             <Button
@@ -210,6 +212,7 @@ export default function NewTransaction() {
                     {cat === "HIBURAN" && <IconEntertainment />}
                     {cat === "MAKANAN" && <IconFood />}
                     {cat === "HADIAH" && <IconGift />}
+                    {cat === "LAINNYA" && <IconOther />}
                     {cat === "RUMAH" && <IconHouse />}
                     {cat === "KESEHATAN" && <IconLove />}
                     {cat === "SEKOLAH" && <IconSchool />}
@@ -224,7 +227,7 @@ export default function NewTransaction() {
           {/* Date Picker */}
           <Button className="bg-gray-100 text-gray-800 hover:bg-gray-100 w-full">
             <div className="flex justify-between">
-              <div className="flex flex-row gap-2 pr-28">
+              <div className="flex flex-row gap-2 pr-20">
                 <IconCalender />
                 <p onClick={toggleCalender} className="flex self-start">
                   {isClient
@@ -251,7 +254,7 @@ export default function NewTransaction() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Catatan..."
-            className="bg-gray-100 text-white hover:bg-gray-100 w-full"
+            className="bg-gray-100 text-gray-700 hover:bg-gray-100 w-full"
           />
         </div>
       </div>
@@ -265,7 +268,7 @@ export default function NewTransaction() {
       </div>
 
       {/* Submit Button */}
-      <div className="flex justify-center py-4">
+      <div className="flex justify-center pt-4">
         <Button
           type="submit"
           onClick={handleAddTransaction}

@@ -82,7 +82,7 @@ export const IconUpChevron = () => (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    style={{ color: "white", height: 20, width: 20 }}
+    style={{ color: "gray-900", height: 20, width: 20 }}
   >
     <path
       strokeLinecap="round"
@@ -98,7 +98,7 @@ export const IconDownChevron = () => (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    style={{ color: "white", height: 20, width: 20 }}
+    style={{ color: "gray-900", height: 20, width: 20 }}
   >
     <path
       strokeLinecap="round"

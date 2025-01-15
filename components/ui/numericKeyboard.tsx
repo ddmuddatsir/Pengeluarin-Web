@@ -27,13 +27,7 @@ const NumericKeyboard: React.FC<NumericKeyboardProps> = ({
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         layout={{
-          default: [
-            "AC / *",
-            "7 8 9 -",
-            "4 5 6 +",
-            "1 2 3 Enter",
-            "0 . {bksp}",
-          ],
+          default: ["AC /", "7 8 9 *", "4 5 6 -", "1 2 3 +", "0 00 {bksp}"],
         }}
         display={{
           "{bksp}": "⌫",
@@ -42,7 +36,6 @@ const NumericKeyboard: React.FC<NumericKeyboardProps> = ({
           "*": "×",
           "-": "−",
           "+": "+",
-          Enter: "⏎",
         }}
         theme="hg-theme-default hg-layout-numeric"
       />

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import ClientProviders from "@/components/ClientProviders";
+import Link from "next/link";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -28,13 +30,17 @@ export default function RootLayout({
       <head>
         {/* Meta tag untuk viewport */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="icon" href="/logoPengeluarin.png" />
       </head>
 
       <body className="bg-gray-100 text-gray-800 flex flex-col max-w-md min-h-screen mx-auto shadow-md">
         <Providers>
-          <main className="min-h-screen flex flex-col w-full max-w-screen-sm mx-auto bg-sky-700 ">
-            {children}
-          </main>
+          <ClientProviders>
+            <main className="min-h-screen flex flex-col w-full max-w-screen-sm mx-auto bg-sky-700 ">
+              {children}
+            </main>
+          </ClientProviders>
         </Providers>
       </body>
     </html>

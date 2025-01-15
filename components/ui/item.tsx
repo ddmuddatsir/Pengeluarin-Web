@@ -1,3 +1,5 @@
+import { formatDate } from "@/utils/formatDate";
+import { formatNumber } from "@/utils/formatNumber";
 import {
   IconBill,
   IconBusiness,
@@ -11,9 +13,7 @@ import {
   IconSchool,
   IconShop,
   IconSubscription,
-} from "@/app/components/iconCategory/page";
-import { formatDate } from "@/utils/formatDate";
-import { formatNumber } from "@/utils/formatNumber";
+} from "./iconcategory";
 
 export default function Item({ items }) {
   // Daftar kategori yang valid
