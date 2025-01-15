@@ -1,57 +1,9 @@
-// import { PrismaClient } from "@prisma/client";
-// import { NextResponse } from "next/server";
-
-// const prisma = new PrismaClient();
-
-// // Handler untuk GET (mengambil semua transaksi)
-// export async function GET() {
-//   try {
-//     const transactions = await prisma.transaction.findMany();
-//     console.log("Transactions fetched:", transactions); // Debugging log
-//     return NextResponse.json(transactions);
-//   } catch (error) {
-//     console.error("Error fetching transactions:", error);
-//     return NextResponse.error();
-//   }
-// }
-
-// // Handler untuk POST (menambahkan transaksi baru)
-// export async function POST(req: Request) {
-//   try {
-//     const { amount, date, description, category } = await req.json();
-//     const transaction = await prisma.transaction.create({
-//       data: {
-//         amount,
-//         date: new Date(date),
-//         description,
-//         category,
-//       },
-//     });
-//     return NextResponse.json(transaction);
-//   } catch (error) {
-//     console.error("Error creating transaction:", error);
-//     return NextResponse.error();
-//   }
-// }
-
-// // Handler untuk DELETE (menghapus transaksi)
-// export async function DELETE(req: Request) {
-//   try {
-//     const { id } = await req.json();
-//     await prisma.transaction.delete({ where: { id } });
-//     return NextResponse.json({ message: "Transaction deleted" });
-//   } catch (error) {
-//     console.error("Error deleting transaction:", error);
-//     return NextResponse.error();
-//   }
-// }
-
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     const transactions = await prisma.transaction.findMany();
     return NextResponse.json(transactions);
@@ -64,7 +16,7 @@ export async function GET() {
   }
 }
 
-export async function POST(req) {
+export async function POST(req: Request): Promise<NextResponse> {
   try {
     const { amount, date, description, category } = await req.json();
 
@@ -94,7 +46,7 @@ export async function POST(req) {
   }
 }
 
-export async function DELETE(req) {
+export async function DELETE(req: Request): Promise<NextResponse> {
   try {
     const { id } = await req.json();
 
