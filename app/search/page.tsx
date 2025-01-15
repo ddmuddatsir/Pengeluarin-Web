@@ -23,12 +23,12 @@ export default function Search() {
     Transaction[]
   >([]); // Data transaksi yang difilter
   const [searchQuery, setSearchQuery] = useState(""); // Input pencarian
-  const [isActive, setIsActive] = useState(1); // Filter aktif
+  const [isActive, setIsActive] = useState<string>("1"); // Filter aktif
   const [totalAmount, setTotalAmount] = useState(0); // Total amount transaksi
 
   const filters = [
-    { id: 1, label: "Semua Transaksi" },
-    { id: 2, label: "Transaksi Terbesar" },
+    { id: "1", label: "Semua Transaksi" },
+    { id: "2", label: "Transaksi Terbesar" },
   ];
 
   useEffect(() => {
@@ -49,16 +49,16 @@ export default function Search() {
     router.back();
   };
 
-  const handleFilter = (filterId: number) => {
+  const handleFilter = (filterId: string) => {
     setIsActive(filterId);
 
     // Berikan nilai default untuk filtered
     let filtered: Transaction[] = [];
 
-    if (filterId === 1) {
+    if (filterId === "1") {
       // Semua transaksi
       filtered = [...transactions];
-    } else if (filterId === 2) {
+    } else if (filterId === "2") {
       // Transaksi terbesar
       filtered = [...transactions].sort((a, b) => b.amount - a.amount);
     } else {
